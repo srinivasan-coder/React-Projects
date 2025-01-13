@@ -147,6 +147,26 @@ app.delete('/items/:id', async (req, res) => {
   }
 });
 
+app.get('/search', async (req, res) => {
+  try {
+    const { name } = req.query; // Get the search query parameter
+    
+    // Perform aggregation to search by name
+    const items = await crudCollection.aggregate([
+      {
+        $match: {
+          name: { $regex: name, $options: 'i' } // Case-insensitive search
+        }
+      }
+    ]).toArray();
+
+    res.status(200).json(items);
+  } catch (err) {
+    console.error('Error fetching items:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

@@ -4,6 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Login from './Login-page/Login';
 import Crud from './CRUD/crud';
+import Home from './Home/home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -12,6 +13,7 @@ root.render(
    <Router>
       <Routes>
         <Route path="/" element={<Login />} />  {/* Login page */}
+        <Route path="/home" element={<Home />} />  {/* CRUD page */}
         <Route path="/crud" element={<Crud />} />  {/* CRUD page */}
       </Routes>
     </Router>

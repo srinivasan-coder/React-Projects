@@ -1,8 +1,8 @@
-// src/Crud/crud.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './crud.css';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import Navbar from '../Navbar/Navbar'
 
 const apiBaseUrl = 'http://localhost:5000/items';
 
@@ -12,6 +12,7 @@ const Crud = () => {
   const [description, setDescription] = useState('');
   const [currentItem, setCurrentItem] = useState(null);
   const [error, setError] = useState('');
+  const [searchQuery, setSearchQuery] = useState(''); // Add search query state
 
   useEffect(() => { 
     axios.get(apiBaseUrl).then((response) => {
@@ -66,10 +67,14 @@ const Crud = () => {
     setDescription(item.description);
   };
 
+  const filteredItems = items.filter((item) =>
+    item.name?.toLowerCase().includes(searchQuery.toLowerCase()) // Safe check before calling toLowerCase
+  );
+
   return (
     <div className="crud-container">
       <h1>CRUD Operations</h1>
-
+      <Navbar setSearchQuery={setSearchQuery} /> {/* Pass the setSearchQuery function to Navbar */}
       <div className="form-container">
         <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" className="input-field"/>
         <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" className="input-field"/>
@@ -80,7 +85,7 @@ const Crud = () => {
 
       <h2>Items List</h2>
       <div className="items-list">
-        {items.map((item, index) => (
+        {filteredItems.map((item, index) => (
           <div key={item._id || index} className="item-card">
             <div className="item-header">
               <h3>{item.name}</h3>

@@ -33,7 +33,7 @@ const Login = () => {
         // alert('Login successful!'); // Replace with navigation logic
         setEmail('');
         setPassword('');
-        navigate('/crud');
+        navigate('/home');
       } else {
         // Register flow
         if (password !== confirmPassword) {
